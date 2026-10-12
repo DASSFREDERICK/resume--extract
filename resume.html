@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Resume Extractor for HR</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f6fb;--card:#fff;--ink:#1c1f33;--mute:#6b7089;--line:#e4e6f1;--acc:#5b5bf0;--acc2:#8b5cf6;--ok:#16a34a;--err:#dc2626;--soft:#eef0ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1120;--card:#181a2e;--ink:#eceefb;--mute:#9a9fc0;--line:#2a2d4a;--soft:#232650}}
+:root[data-theme="dark"]{--bg:#0f1120;--card:#181a2e;--ink:#eceefb;--mute:#9a9fc0;--line:#2a2d4a;--soft:#232650}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}
+.wrap{max-width:1000px;margin:0 auto;padding:28px 18px 80px}
+header{text-align:center;margin-bottom:28px;animation:up .6s both}
+.logo{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-size:26px;box-shadow:0 10px 30px -8px var(--acc)}
+h1{font-size:clamp(24px,5vw,34px);margin:14px 0 6px;letter-spacing:-.02em}
+header p{color:var(--mute);margin:0 auto;max-width:520px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;margin-bottom:18px;box-shadow:0 4px 24px -12px rgba(40,40,100,.18);animation:up .6s both}
+.card:nth-of-type(2){animation-delay:.08s}.card:nth-of-type(3){animation-delay:.16s}
+.step{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:17px;font-weight:600}
+.step b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--soft);color:var(--acc);font-size:14px}
+.drop{border:2px dashed var(--line);border-radius:16px;padding:34px 16px;text-align:center;cursor:pointer;transition:.25s;background:var(--bg)}
+.drop:hover,.drop.over{border-color:var(--acc);background:var(--soft);transform:translateY(-2px)}
+.drop .ico{font-size:34px;display:block;animation:float 3s ease-in-out infinite}
+.drop strong{display:block;margin-top:6px}.drop span{color:var(--mute);font-size:14px}
+.files{display:grid;gap:8px;margin-top:14px}
+.file{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;animation:pop .35s both;font-size:14px}
+.file .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag{font-size:12px;padding:2px 9px;border-radius:99px;background:var(--soft);color:var(--acc);font-weight:600}
+.tag.ok{background:rgba(22,163,74,.14);color:var(--ok)}.tag.err{background:rgba(220,38,38,.14);color:var(--err)}
+.x{border:0;background:none;color:var(--mute);cursor:pointer;font-size:18px;padding:2px 6px;border-radius:8px}.x:hover{color:var(--err);background:var(--soft)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.links button{border:0;background:none;color:var(--acc);font:inherit;font-weight:600;cursor:pointer;padding:4px 8px;border-radius:8px}.links button:hover{background:var(--soft)}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-top:12px}
+.chip{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;cursor:pointer;user-select:none;transition:.2s;animation:pop .4s both;font-size:14.5px;font-weight:500}
+.chip:hover{transform:translateY(-2px);border-color:var(--acc)}
+.chip i{width:20px;height:20px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:12px;color:transparent;transition:.2s;flex:none}
+.chip.on{border-color:var(--acc);background:var(--soft)}.chip.on i{background:var(--acc);border-color:var(--acc);color:#fff;transform:scale(1.1)}
+.chip em{font-style:normal;margin-left:auto;color:var(--mute);cursor:pointer;padding:0 4px}
+.add{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+input[type=text]{flex:1;min-width:200px;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;outline:0;transition:.2s}
+input[type=text]:focus{border-color:var(--acc);box-shadow:0 0 0 4px var(--soft)}
+.hint{color:var(--mute);font-size:13px;margin:8px 0 0}
+.btn{border:0;border-radius:12px;padding:12px 22px;font:inherit;font-weight:600;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2));transition:.2s;box-shadow:0 8px 20px -8px var(--acc);position:relative;overflow:hidden}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 24px -8px var(--acc)}
+.btn:active:not(:disabled){transform:scale(.97)}.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn.ghost{background:var(--soft);color:var(--acc);box-shadow:none}
+.btn.go{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 8px 20px -8px #16a34a}
+.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:14px;opacity:0;transition:.3s}.bar.show{opacity:1}
+.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .35s}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:14px;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{background:var(--soft);color:var(--acc);text-align:left;padding:11px 12px;white-space:nowrap;position:sticky;top:0}
+td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top;min-width:120px;max-width:280px;outline:0}
+td:focus{background:var(--soft)}tr.r{animation:up .4s both}
+.empty{text-align:center;color:var(--mute);padding:26px 10px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:12px;opacity:0;transition:.35s;font-size:14px;z-index:9;max-width:90%}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--acc);border-radius:50%;animation:rot .7s linear infinite}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@keyframes float{50%{transform:translateY(-6px)}}@keyframes rot{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="logo">📄</div><h1>Resume Extractor</h1><p>Upload resumes, pick the details you need, and export a clean Excel sheet. Everything runs in your browser — files never leave your device.</p></header>
+
+<section class="card"><h2 class="step"><b>1</b>Upload resumes</h2>
+<div class="drop" id="drop"><span class="ico">☁️</span><strong>Drop PDF resumes here or click to browse</strong><span>Multiple files supported</span></div>
+<input type="file" id="fi" accept="application/pdf,.pdf" multiple hidden>
+<div class="files" id="files"></div></section>
+
+<section class="card"><div class="row"><h2 class="step" style="margin:0"><b>2</b>Choose details to extract</h2><div class="links"><button id="all">Select all</button><button id="none">Clear</button></div></div>
+<div class="chips" id="chips"></div>
+<div class="add"><input type="text" id="cust" placeholder="Add other detail, e.g. Notice Period, Expected Salary, Nationality"><button class="btn ghost" id="addb">+ Add</button></div>
+<p class="hint">Custom details are found by looking for that label in the resume (e.g. “Notice Period: 30 days”).</p>
+<div style="margin-top:18px"><button class="btn" id="run" disabled>Extract details</button></div>
+<div class="bar" id="bar"><div></div></div></section>
+
+<section class="card"><div class="row"><h2 class="step" style="margin:0"><b>3</b>Review &amp; export</h2><button class="btn go" id="exp" disabled>⬇ Export to Excel</button></div>
+<p class="hint">Results are editable — click any cell to fix it before exporting.</p>
+<div class="tw"><table id="tbl"><tbody><tr><td class="empty">Your extracted results will appear here.</td></tr></tbody></table></div></section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),3200)};
+const BASE=["Full Name","Email","Phone","Location","LinkedIn","GitHub / Portfolio","Current Job Title","Total Experience","Education","Skills","Certifications","Languages","Summary"];
+let fields=BASE.map((n,i)=>({n,on:i<6,custom:false}));
+let files=[],rows=[],cols=[];
+
+/* ---------- UI: files ---------- */
+const drop=$("#drop"),fi=$("#fi");
+drop.onclick=()=>fi.click();
+["dragover","dragenter"].forEach(e=>drop.addEventListener(e,x=>{x.preventDefault();drop.classList.add("over")}));
+["dragleave","drop"].forEach(e=>drop.addEventListener(e,x=>{x.preventDefault();drop.classList.remove("over")}));
+drop.addEventListener("drop",e=>addFiles(e.dataTransfer.files));
+fi.onchange=()=>{addFiles(fi.files);fi.value=""};
+function addFiles(list){let skipped=0;[...list].forEach(f=>{if(!/\.pdf$/i.test(f.name)&&f.type!=="application/pdf"){skipped++;return}
+ if(files.some(x=>x.f.name===f.name&&x.f.size===f.size))return;files.push({f,id:Math.random().toString(36).slice(2),st:"Ready",cls:""})});
+ if(skipped)toast(skipped+" non-PDF file(s) skipped");renderFiles()}
+function renderFiles(){$("#files").innerHTML=files.map(o=>`<div class="file"><span>📎</span><span class="n">${esc(o.f.name)}</span><span class="tag ${o.cls}">${o.st}</span><button class="x" data-id="${o.id}" title="Remove">✕</button></div>`).join("");
+ document.querySelectorAll(".x[data-id]").forEach(b=>b.onclick=()=>{files=files.filter(o=>o.id!==b.dataset.id);renderFiles()});sync()}
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- UI: fields ---------- */
+function renderChips(){$("#chips").innerHTML=fields.map((x,i)=>`<div class="chip ${x.on?"on":""}" data-i="${i}" style="animation-delay:${i*30}ms"><i>✓</i>${esc(x.n)}${x.custom?`<em data-d="${i}" title="Remove">✕</em>`:""}</div>`).join("");
+ document.querySelectorAll(".chip").forEach(c=>c.onclick=e=>{if(e.target.dataset.d){fields.splice(+e.target.dataset.d,1)}else{const f=fields[+c.dataset.i];f.on=!f.on}renderChips()});sync()}
+$("#all").onclick=()=>{fields.forEach(f=>f.on=true);renderChips()};
+$("#none").onclick=()=>{fields.forEach(f=>f.on=false);renderChips()};
+function addCustom(){const v=$("#cust").value.trim();if(!v)return;if(fields.some(f=>f.n.toLowerCase()===v.toLowerCase())){toast("Already in the list");return}
+ fields.push({n:v,on:true,custom:true});$("#cust").value="";renderChips()}
+$("#addb").onclick=addCustom;$("#cust").onkeydown=e=>{if(e.key==="Enter")addCustom()};
+function sync(){$("#run").disabled=!files.length||!fields.some(f=>f.on)}
+
+/* ---------- PDF text ---------- */
+async function readPdf(file){
+ const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;let lines=[];
+ for(let p=1;p<=pdf.numPages;p++){const items=(await(await pdf.getPage(p)).getTextContent()).items.filter(i=>i.str.trim());
+  const ys=[];items.forEach(i=>{const y=Math.round(i.transform[5]);let g=ys.find(a=>Math.abs(a.y-y)<=3);if(!g){g={y,t:[]};ys.push(g)}g.t.push(i)});
+  ys.sort((a,b)=>b.y-a.y).forEach(g=>{g.t.sort((a,b)=>a.transform[4]-b.transform[4]);const s=g.t.map(i=>i.str).join(" ").replace(/\s+/g," ").trim();if(s)lines.push(s)})}
+ return lines}
+
+/* ---------- extraction ---------- */
+const HEAD=["summary","profile","objective","about me","about","experience","work experience","professional experience","employment","employment history","education","academic","qualifications","skills","technical skills","core competencies","key skills","certifications","certificates","licenses","languages","projects","achievements","awards","interests","references","personal details","declaration","courses","training"];
+const norm=s=>s.toLowerCase().replace(/[^a-z ]/g,"").trim();
+const isHead=l=>l.length<40&&HEAD.includes(norm(l));
+function section(lines,names){const i=lines.findIndex(l=>isHead(l)&&names.includes(norm(l)));if(i<0)return[];const out=[];
+ for(let j=i+1;j<lines.length&&out.length<25;j++){if(isHead(lines[j]))break;out.push(lines[j])}return out}
+const split=a=>[...new Set(a.join(", ").split(/[,•|;·▪●◦\u2022]|\s{2,}/).map(s=>s.replace(/^[-–:\s]+|[\s.]+$/g,"").trim()).filter(s=>s&&s.length<45))];
+const SK=["Python","Java","JavaScript","TypeScript","C++","C#","SQL","React","Node.js","Angular","Excel","Power BI","Tableau","AWS","Azure","Docker","Git","Photoshop","SAP","Recruitment","Payroll","Communication","Leadership","Project Management","Accounting","Marketing","Sales","SEO","Customer Service","Negotiation","Figma","Linux","HTML","CSS","Machine Learning","Data Analysis"];
+const EX={
+"Full Name":(L,t,f)=>{const bad=/resume|curriculum|vitae|profile|summary|contact|objective|address|email|page/i;
+ const n=L.slice(0,8).find(l=>!bad.test(l)&&/^[A-Za-z][A-Za-z.'’-]+(\s[A-Za-z.'’-]+){1,3}$/.test(l)&&l.length<45);
+ return n?n.replace(/\b([A-Z])([A-Z]+)\b/g,(m,a,b)=>a+b.toLowerCase()):f.replace(/\.pdf$/i,"").replace(/[_-]+/g," ").replace(/resume|cv/ig,"").trim()},
+"Email":(L,t)=>(t.match(/[\w.+-]+@[\w-]+(\.[\w-]+)+/)||[""])[0],
+"Phone":(L,t)=>{for(const m of t.matchAll(/(\+?\d[\d\s().-]{7,17}\d)/g)){const d=m[1].replace(/\D/g,"");if(d.length>=9&&d.length<=14&&!/^(19|20)\d{2}/.test(d))return m[1].trim()}return""},
+"Location":(L,t)=>{const a=t.match(/(?:address|location|city)\s*[:\-]\s*([^\n|]{4,60})/i);if(a)return a[1].trim();
+ const l=L.slice(0,12).join(" | ").match(/([A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*,\s*[A-Z][a-zA-Z]+(?: [A-Z][a-zA-Z]+)*)/);return l?l[1]:""},
+"LinkedIn":(L,t)=>(t.match(/(?:https?:\/\/)?(?:[a-z]{2,3}\.)?linkedin\.com\/[^\s|,)]+/i)||[""])[0],
+"GitHub / Portfolio":(L,t)=>(t.match(/(?:https?:\/\/)?(?:www\.)?(?:github\.com|gitlab\.com|behance\.net|dribbble\.com)\/[^\s|,)]+/i)||[""])[0],
+"Current Job Title":L=>{const r=/\b(manager|engineer|developer|analyst|executive|designer|officer|consultant|specialist|director|lead|intern|accountant|administrator|coordinator|recruiter|assistant|architect|scientist|supervisor|head)\b/i;
+ const s=section(L,["experience","work experience","professional experience","employment","employment history"]);const pool=[...s.slice(0,6),...L.slice(1,6)];
+ return(pool.find(l=>r.test(l)&&l.length<70&&!/@|\d{4}\s*[-–]/.test(l.replace(/\d{4}\s*[-–]\s*(\d{4}|present).*/i,"")))||"").replace(/\s*[|,(]?\s*(\d{4}|\w{3}\w* \d{4}).*$/,"").trim()},
+"Total Experience":(L,t)=>{const m=t.match(/(\d{1,2})\+?\s*(?:years?|yrs)/i);if(m)return m[1]+" years";
+ let a=[];for(const r of t.matchAll(/((?:19|20)\d{2})\s*[-–to]+\s*((?:19|20)\d{2}|present|current|now)/gi)){a.push([+r[1],/\d/.test(r[2])?+r[2]:2026])}
+ if(!a.length)return"";const y=Math.max(...a.map(x=>x[1]))-Math.min(...a.map(x=>x[0]));return y>0&&y<50?"~"+y+" years":""},
+"Education":L=>{const r=/\b(bachelor|master|b\.?\s?sc|m\.?\s?sc|b\.?\s?tech|m\.?\s?tech|mba|ph\.?d|diploma|degree|b\.?\s?com|b\.?\s?a\b|m\.?\s?a\b|b\.?\s?e\b|associate|stpm|spm|a-level)/i;
+ return[...new Set(L.filter(l=>r.test(l)&&l.length<120))].slice(0,3).join(" | ")},
+"Skills":L=>{let s=split(section(L,["skills","technical skills","core competencies","key skills"])).slice(0,25);
+ if(!s.length){const t=L.join(" ");s=SK.filter(k=>new RegExp("(^|[^a-z])"+k.replace(/[.+#]/g,"\\$&")+"($|[^a-z])","i").test(t))}return s.join(", ")},
+"Certifications":L=>split(section(L,["certifications","certificates","licenses"])).slice(0,10).join(", "),
+"Languages":(L)=>{let s=split(section(L,["languages"])).slice(0,8);if(!s.length){const k=["English","Malay","Mandarin","Chinese","Tamil","Hindi","Arabic","French","German","Spanish","Japanese","Korean"];s=k.filter(x=>new RegExp("\\b"+x+"\\b","i").test(L.join(" ")))}return s.join(", ")},
+"Summary":L=>{const s=section(L,["summary","profile","objective","about me","about"]).join(" ");return s.length>350?s.slice(0,347)+"…":s}};
+function custom(L,label){const lab=label.toLowerCase();for(let i=0;i<L.length;i++){const l=L[i],k=l.toLowerCase().indexOf(lab);if(k<0)continue;
+ const after=l.slice(k+label.length).replace(/^\s*[:\-–]\s*/,"").trim();if(after)return after.slice(0,200);if(L[i+1]&&!isHead(L[i+1]))return L[i+1].slice(0,200)}return""}
+
+/* ---------- run ---------- */
+$("#run").onclick=async()=>{
+ const sel=fields.filter(f=>f.on);cols=sel.map(f=>f.n);rows=[];const bar=$("#bar"),fill=bar.firstElementChild;
+ $("#run").disabled=true;$("#exp").disabled=true;bar.classList.add("show");fill.style.width="0";
+ for(let i=0;i<files.length;i++){const o=files[i];o.st="Reading…";o.cls="";renderFiles();
+  try{const L=await readPdf(o.f),t=L.join("\n");if(t.length<30)throw new Error("scan");
+   const r={"Source File":o.f.name};sel.forEach(f=>{r[f.n]=(f.custom?custom(L,f.n):EX[f.n](L,t,o.f.name))||""});rows.push(r);o.st="Done";o.cls="ok"}
+  catch(e){o.st=e.message==="scan"?"No text (scanned?)":"Failed";o.cls="err"}
+  renderFiles();fill.style.width=((i+1)/files.length*100)+"%"}
+ renderTable();setTimeout(()=>bar.classList.remove("show"),700);sync();
+ toast(rows.length?`Extracted ${rows.length} resume${rows.length>1?"s":""}`:"Nothing could be extracted");
+ if(rows.length)$("#tbl").scrollIntoView({behavior:"smooth",block:"center"})};
+function renderTable(){const h=["Source File",...cols];
+ $("#tbl").innerHTML=rows.length?`<thead><tr>${h.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${rows.map((r,i)=>`<tr class="r" style="animation-delay:${i*60}ms">${h.map(c=>`<td contenteditable="true" data-r="${i}" data-c="${esc(c)}">${esc(r[c])}</td>`).join("")}</tr>`).join("")}</tbody>`
+ :`<tbody><tr><td class="empty">No results yet.</td></tr></tbody>`;
+ document.querySelectorAll("td[data-r]").forEach(td=>td.oninput=()=>{rows[+td.dataset.r][td.dataset.c]=td.textContent});
+ $("#exp").disabled=!rows.length}
+
+/* ---------- Excel export ---------- */
+$("#exp").onclick=async()=>{
+ try{const wb=new ExcelJS.Workbook(),ws=wb.addWorksheet("Candidates",{views:[{state:"frozen",ySplit:1}]});
+  const h=["#","Source File",...cols];
+  ws.columns=h.map(c=>{const w=Math.max(c.length,...rows.map(r=>String(c==="#"?rows.length:r[c]||"").length));
+   return{header:c,key:c,width:c==="#"?6:Math.min(Math.max(w+4,14),60)}});
+  rows.forEach((r,i)=>ws.addRow({"#":i+1,...r}));
+  const bd={style:"thin",color:{argb:"FFD9DCEB"}},border={top:bd,left:bd,bottom:bd,right:bd};
+  ws.eachRow((row,n)=>{row.eachCell(c=>{c.border=border;c.alignment={vertical:"middle",horizontal:n===1?"center":"left",wrapText:true};
+   if(n===1){c.font={bold:true,color:{argb:"FFFFFFFF"},size:11};c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF5B5BF0"}}}
+   else if(n%2===1)c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF4F5FD"}}});
+   if(n===1)row.height=26;else{let k=1;row.eachCell((c,i)=>{k=Math.max(k,Math.ceil(String(c.value||"").length/Math.max(ws.getColumn(i).width-2,8)))});row.height=Math.min(150,Math.max(22,k*15+6))}});
+  ws.autoFilter={from:{row:1,column:1},to:{row:1,column:h.length}};
+  const buf=await wb.xlsx.writeBuffer(),blob=new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),name="resume-details-"+new Date().toISOString().slice(0,10)+".xlsx";
+  let dl=null;try{dl=await claude.use("downloads")}catch(e){}
+  if(dl){await dl.save({filename:name,data:blob});toast("Excel file saved ✓")}
+  else{const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();toast("Excel file downloaded ✓")}
+ }catch(e){if(e&&e.code==="declined")return;toast("Export failed — please try again")}};
+
+renderChips();renderFiles();
+</script>
+</body>
+</html>
