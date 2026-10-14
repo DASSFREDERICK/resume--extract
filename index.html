@@ -6,70 +6,89 @@
 <title>Resume Extractor for HR</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f6fb;--card:#fff;--ink:#1c1f33;--mute:#6b7089;--line:#e4e6f1;--acc:#5b5bf0;--acc2:#8b5cf6;--ok:#16a34a;--err:#dc2626;--soft:#eef0ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1120;--card:#181a2e;--ink:#eceefb;--mute:#9a9fc0;--line:#2a2d4a;--soft:#232650}}
-:root[data-theme="dark"]{--bg:#0f1120;--card:#181a2e;--ink:#eceefb;--mute:#9a9fc0;--line:#2a2d4a;--soft:#232650}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}
-.wrap{max-width:1000px;margin:0 auto;padding:28px 18px 80px}
-header{text-align:center;margin-bottom:28px;animation:up .6s both}
-.logo{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-size:26px;box-shadow:0 10px 30px -8px var(--acc)}
-h1{font-size:clamp(24px,5vw,34px);margin:14px 0 6px;letter-spacing:-.02em}
-header p{color:var(--mute);margin:0 auto;max-width:520px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;margin-bottom:18px;box-shadow:0 4px 24px -12px rgba(40,40,100,.18);animation:up .6s both}
-.card:nth-of-type(2){animation-delay:.08s}.card:nth-of-type(3){animation-delay:.16s}
-.step{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:17px;font-weight:600}
-.step b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--soft);color:var(--acc);font-size:14px}
-.drop{border:2px dashed var(--line);border-radius:16px;padding:34px 16px;text-align:center;cursor:pointer;transition:.25s;background:var(--bg)}
-.drop:hover,.drop.over{border-color:var(--acc);background:var(--soft);transform:translateY(-2px)}
-.drop .ico{font-size:34px;display:block;animation:float 3s ease-in-out infinite}
-.drop strong{display:block;margin-top:6px}.drop span{color:var(--mute);font-size:14px}
-.files{display:grid;gap:8px;margin-top:14px}
-.file{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;animation:pop .35s both;font-size:14px}
+:root{--bg:#09090b;--card:#111114;--ink:#fafafa;--mute:#8b8b95;--line:#222228;--soft:#18181d;--acc:#34d399;--on:#04130e;--ok:#34d399;--err:#f87171;--glow:rgba(52,211,153,.14);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#fafafa;--card:#fff;--ink:#0a0a0b;--mute:#6b6b76;--line:#e6e6ea;--soft:#f3f3f5;--acc:#059669;--on:#fff;--ok:#059669;--err:#dc2626;--glow:rgba(5,150,105,.12);color-scheme:light}}
+:root[data-theme="light"]{--bg:#fafafa;--card:#fff;--ink:#0a0a0b;--mute:#6b6b76;--line:#e6e6ea;--soft:#f3f3f5;--acc:#059669;--on:#fff;--ok:#059669;--err:#dc2626;--glow:rgba(5,150,105,.12);color-scheme:light}
+*{box-sizing:border-box}html,body{overflow-x:clip}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+.hero{position:relative;padding:38px 4px 6px;margin-bottom:30px;animation:up .6s both}
+.hero::before{content:"";position:absolute;z-index:-1;inset:-260px -40vw -120px -40vw;pointer-events:none;
+ background:radial-gradient(520px 360px at 30% 36%,rgba(52,211,153,.20),transparent 70%),radial-gradient(460px 340px at 82% 52%,rgba(56,189,248,.13),transparent 70%),radial-gradient(380px 300px at 96% 20%,rgba(244,114,182,.07),transparent 70%)}
+.hero::after{content:"";position:absolute;z-index:-1;inset:-260px -40vw -80px -40vw;pointer-events:none;
+ background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;opacity:.45;
+ -webkit-mask-image:radial-gradient(ellipse 60% 60% at 40% 45%,#000,transparent 75%);mask-image:radial-gradient(ellipse 60% 60% at 40% 45%,#000,transparent 75%)}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border-radius:99px;border:1px solid color-mix(in srgb,var(--acc) 35%,transparent);background:color-mix(in srgb,var(--acc) 10%,transparent);color:var(--acc);font-size:10.5px;font-weight:700;letter-spacing:.1em}
+.badge i{width:5px;height:5px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
+h1{font-size:clamp(44px,9vw,68px);line-height:1.02;margin:20px 0 16px;letter-spacing:-.04em;font-weight:800}
+h1 span{display:block;width:fit-content;background:linear-gradient(90deg,var(--acc),#38bdf8);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.hero p{color:var(--mute);margin:0;max-width:430px;font-size:15px}
+.feats{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.feats span{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:9px;border:1px solid var(--line);background:color-mix(in srgb,var(--card) 80%,transparent);color:var(--mute);font-size:12px;font-weight:500;backdrop-filter:blur(6px)}
+.feats svg{width:13px;height:13px;color:var(--acc)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .hero::before{opacity:.6}}
+.wrap{max-width:980px;margin:0 auto;padding:44px 18px 90px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:14px;animation:up .6s both}
+.card:nth-of-type(2){animation-delay:.07s}.card:nth-of-type(3){animation-delay:.14s}
+.step{display:flex;align-items:center;gap:10px;margin:0 0 16px;font-size:15px;font-weight:600;letter-spacing:-.01em}
+.step b{display:grid;place-items:center;width:24px;height:24px;border-radius:7px;background:var(--soft);border:1px solid var(--line);color:var(--mute);font-size:12px;font-weight:600}
+.drop{border:1px dashed var(--line);border-radius:12px;padding:34px 16px;text-align:center;cursor:pointer;transition:.2s;background:var(--bg)}
+.drop:hover,.drop.over{border-color:var(--acc);background:var(--soft);box-shadow:0 0 0 4px var(--glow)}
+.drop .ico{display:grid;place-items:center;width:40px;height:40px;margin:0 auto 4px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--mute);transition:.2s}
+.drop:hover .ico{color:var(--acc);border-color:var(--acc)}.drop .ico svg{width:18px;height:18px}
+.drop strong{display:block;margin-top:8px;font-size:14.5px;font-weight:600}.drop span.sub{color:var(--mute);font-size:13px}
+.files{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-top:14px}
+.file{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);animation:pop .3s both;font-size:13.5px;min-width:0}
+.file .pdf{font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--mute);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
 .file .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tag{font-size:12px;padding:2px 9px;border-radius:99px;background:var(--soft);color:var(--acc);font-weight:600}
-.tag.ok{background:rgba(22,163,74,.14);color:var(--ok)}.tag.err{background:rgba(220,38,38,.14);color:var(--err)}
-.x{border:0;background:none;color:var(--mute);cursor:pointer;font-size:18px;padding:2px 6px;border-radius:8px}.x:hover{color:var(--err);background:var(--soft)}
+.tag{font-size:11.5px;padding:2px 9px;border-radius:99px;background:var(--soft);border:1px solid var(--line);color:var(--mute);font-weight:500;white-space:nowrap}
+.tag.ok{background:transparent;border-color:color-mix(in srgb,var(--ok) 40%,transparent);color:var(--ok)}.tag.err{background:transparent;border-color:color-mix(in srgb,var(--err) 40%,transparent);color:var(--err)}
+.x{border:0;background:none;color:var(--mute);cursor:pointer;font-size:16px;padding:2px 7px;border-radius:7px}.x:hover{color:var(--err);background:var(--soft)}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.links button{border:0;background:none;color:var(--acc);font:inherit;font-weight:600;cursor:pointer;padding:4px 8px;border-radius:8px}.links button:hover{background:var(--soft)}
-.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-top:12px}
-.chip{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;cursor:pointer;user-select:none;transition:.2s;animation:pop .4s both;font-size:14.5px;font-weight:500}
-.chip:hover{transform:translateY(-2px);border-color:var(--acc)}
-.chip i{width:20px;height:20px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:12px;color:transparent;transition:.2s;flex:none}
-.chip.on{border-color:var(--acc);background:var(--soft)}.chip.on i{background:var(--acc);border-color:var(--acc);color:#fff;transform:scale(1.1)}
+.links button{border:0;background:none;color:var(--mute);font:inherit;font-size:13px;font-weight:500;cursor:pointer;padding:4px 9px;border-radius:7px}.links button:hover{color:var(--ink);background:var(--soft)}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:8px;margin-top:14px}
+.chip{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;user-select:none;transition:.15s;animation:pop .35s both;font-size:13.5px;font-weight:500;color:var(--mute);background:var(--bg)}
+.chip:hover{border-color:var(--mute);color:var(--ink)}
+.chip i{width:16px;height:16px;border-radius:5px;border:1.5px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:10px;color:transparent;transition:.15s;flex:none}
+.chip.on{border-color:color-mix(in srgb,var(--acc) 55%,transparent);background:var(--soft);color:var(--ink)}.chip.on i{background:var(--acc);border-color:var(--acc);color:var(--on)}
 .chip em{font-style:normal;margin-left:auto;color:var(--mute);cursor:pointer;padding:0 4px}
 .add{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-input[type=text]{flex:1;min-width:200px;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;outline:0;transition:.2s}
-input[type=text]:focus{border-color:var(--acc);box-shadow:0 0 0 4px var(--soft)}
-.hint{color:var(--mute);font-size:13px;margin:8px 0 0}
-.btn{border:0;border-radius:12px;padding:12px 22px;font:inherit;font-weight:600;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2));transition:.2s;box-shadow:0 8px 20px -8px var(--acc);position:relative;overflow:hidden}
-.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 24px -8px var(--acc)}
-.btn:active:not(:disabled){transform:scale(.97)}.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
-.btn.ghost{background:var(--soft);color:var(--acc);box-shadow:none}
-.btn.go{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 8px 20px -8px #16a34a}
-.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:14px;opacity:0;transition:.3s}.bar.show{opacity:1}
-.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .35s}
-.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:14px;max-width:100%}
-table{border-collapse:collapse;width:100%;font-size:13.5px}
-th{background:var(--soft);color:var(--acc);text-align:left;padding:11px 12px;white-space:nowrap;position:sticky;top:0}
+input[type=text]{flex:1;min-width:200px;padding:10px 13px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px;outline:0;transition:.15s}
+input[type=text]::placeholder{color:var(--mute)}input[type=text]:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--glow)}
+.hint{color:var(--mute);font-size:12.5px;margin:9px 0 0}
+.btn{border:0;border-radius:10px;padding:11px 20px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;color:var(--on);background:var(--acc);transition:.15s}
+.btn:hover:not(:disabled){filter:brightness(1.1);box-shadow:0 0 0 4px var(--glow)}
+.btn:active:not(:disabled){transform:scale(.98)}.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:var(--soft);color:var(--ink);border:1px solid var(--line)}.btn.ghost:hover:not(:disabled){filter:none;border-color:var(--mute);box-shadow:none}
+.btn.go{background:var(--ink);color:var(--bg)}.btn.go:hover:not(:disabled){filter:none;box-shadow:0 0 0 4px var(--soft)}
+.bar{height:3px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:16px;opacity:0;transition:.3s}.bar.show{opacity:1}
+.bar div{height:100%;width:0;background:var(--acc);transition:width .35s}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-top:14px;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{background:var(--soft);color:var(--mute);text-align:left;padding:10px 12px;white-space:nowrap;position:sticky;top:0;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
 td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top;min-width:120px;max-width:280px;outline:0}
-td:focus{background:var(--soft)}tr.r{animation:up .4s both}
-.empty{text-align:center;color:var(--mute);padding:26px 10px}
-.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:12px;opacity:0;transition:.35s;font-size:14px;z-index:9;max-width:90%}
+td:focus{background:var(--soft);box-shadow:inset 2px 0 0 var(--acc)}tr.r{animation:up .4s both}
+.empty{text-align:center;color:var(--mute);padding:28px 10px}
+.ai{margin-top:18px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.ai label{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;cursor:pointer;flex-wrap:wrap}
+.ai input[type=checkbox]{width:16px;height:16px;accent-color:var(--acc)}
+.ai select{margin-left:auto;padding:6px 9px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:12.5px}
+.ai .hint{margin:8px 0 0 26px}.ai.off{opacity:.55}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:10px;opacity:0;transition:.3s;font-size:13.5px;font-weight:500;z-index:9;max-width:90%}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--acc);border-radius:50%;animation:rot .7s linear infinite}
-@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
-@keyframes float{50%{transform:translateY(-6px)}}@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header><div class="logo">📄</div><h1>Resume Extractor</h1><p>Upload resumes, pick the details you need, and export a clean Excel sheet. Everything runs in your browser — files never leave your device.</p></header>
+<header class="hero"><span class="badge"><i></i>FREE · AI-POWERED</span>
+<h1>Resume<span>Extractor</span></h1>
+<p>Upload resumes, pick the details you need, and export a clean Excel sheet. Everything runs in your browser — files never leave your device.</p>
+<div class="feats"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>Bulk PDF upload</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>Smart AI mode</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>100% private</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Export to Excel</span></div></header>
 
 <section class="card"><h2 class="step"><b>1</b>Upload resumes</h2>
-<div class="drop" id="drop"><span class="ico">☁️</span><strong>Drop PDF resumes here or click to browse</strong><span>Multiple files supported</span></div>
+<div class="drop" id="drop"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg></span><strong>Drop PDF resumes here or click to browse</strong><span class="sub">Multiple files supported</span></div>
 <input type="file" id="fi" accept="application/pdf,.pdf" multiple hidden>
 <div class="files" id="files"></div></section>
 
@@ -77,6 +96,9 @@ td:focus{background:var(--soft)}tr.r{animation:up .4s both}
 <div class="chips" id="chips"></div>
 <div class="add"><input type="text" id="cust" placeholder="Add other detail, e.g. Notice Period, Expected Salary, Nationality"><button class="btn ghost" id="addb">+ Add</button></div>
 <p class="hint">Custom details are found by looking for that label in the resume (e.g. “Notice Period: 30 days”).</p>
+<div class="ai" id="aibox"><label><input type="checkbox" id="ai" checked><span>Smart AI mode <small style="font-weight:500;color:var(--mute)">(more accurate titles)</small></span>
+<select id="aim"><option value="smart">Accurate · ~1 GB</option><option value="fast">Fast · ~400 MB</option></select></label>
+<p class="hint" id="aist">A small AI model runs privately inside your browser — nothing is uploaded and nothing to install. It downloads once on first use, then is cached for next time.</p></div>
 <div style="margin-top:18px"><button class="btn" id="run" disabled>Extract details</button></div>
 <div class="bar" id="bar"><div></div></div></section>
 
@@ -107,7 +129,7 @@ fi.onchange=()=>{addFiles(fi.files);fi.value=""};
 function addFiles(list){let skipped=0;[...list].forEach(f=>{if(!/\.pdf$/i.test(f.name)&&f.type!=="application/pdf"){skipped++;return}
  if(files.some(x=>x.f.name===f.name&&x.f.size===f.size))return;files.push({f,id:Math.random().toString(36).slice(2),st:"Ready",cls:""})});
  if(skipped)toast(skipped+" non-PDF file(s) skipped");renderFiles()}
-function renderFiles(){$("#files").innerHTML=files.map(o=>`<div class="file"><span>📎</span><span class="n">${esc(o.f.name)}</span><span class="tag ${o.cls}">${o.st}</span><button class="x" data-id="${o.id}" title="Remove">✕</button></div>`).join("");
+function renderFiles(){$("#files").innerHTML=files.map(o=>`<div class="file"><span class="pdf">PDF</span><span class="n">${esc(o.f.name)}</span><span class="tag ${o.cls}">${o.st}</span><button class="x" data-id="${o.id}" title="Remove">✕</button></div>`).join("");
  document.querySelectorAll(".x[data-id]").forEach(b=>b.onclick=()=>{files=files.filter(o=>o.id!==b.dataset.id);renderFiles()});sync()}
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
@@ -122,11 +144,25 @@ $("#addb").onclick=addCustom;$("#cust").onkeydown=e=>{if(e.key==="Enter")addCust
 function sync(){$("#run").disabled=!files.length||!fields.some(f=>f.on)}
 
 /* ---------- PDF text ---------- */
+function toLines(items){const ys=[],out=[];
+ items.forEach(i=>{const y=Math.round(i.transform[5]);let g=ys.find(a=>Math.abs(a.y-y)<=3);if(!g){g={y,t:[]};ys.push(g)}g.t.push(i)});
+ ys.sort((a,b)=>b.y-a.y).forEach(g=>{g.t.sort((a,b)=>a.transform[4]-b.transform[4]);const s=g.t.map(i=>i.str).join(" ").replace(/\s+/g," ").trim();if(s)out.push(s)});return out}
+/* detects a vertical gutter (2-column / sidebar layouts) and returns [leftItems,rightItems], else [allItems] */
+function splitCols(items,W){
+ if(items.length<40)return[items];
+ const B=4,n=Math.ceil(W/B),cnt=new Array(n+1).fill(0);
+ items.forEach(i=>{const x=i.transform[4],x0=Math.max(0,Math.floor(x/B)),x1=Math.min(n,Math.floor((x+(i.width||0))/B));for(let b=x0;b<=x1;b++)cnt[b]++});
+ const lim=Math.max(1,Math.floor(items.length*.03)),lo=Math.floor(n*.2),hi=Math.ceil(n*.8);let best=null,st=-1;
+ for(let b=lo;b<=hi+1;b++){const ok=b<=hi&&cnt[b]<=lim;if(ok&&st<0)st=b;if(!ok&&st>=0){if(b-st>=3&&(!best||b-st>best[1]-best[0]))best=[st,b];st=-1}}
+ if(!best)return[items];
+ const gx=(best[0]+best[1])/2*B,Lf=items.filter(i=>i.transform[4]<gx),Rt=items.filter(i=>i.transform[4]>=gx);
+ if(Lf.length<items.length*.15||Rt.length<items.length*.15)return[items];
+ return[Lf,Rt]}
 async function readPdf(file){
  const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;let lines=[];
- for(let p=1;p<=pdf.numPages;p++){const items=(await(await pdf.getPage(p)).getTextContent()).items.filter(i=>i.str.trim());
-  const ys=[];items.forEach(i=>{const y=Math.round(i.transform[5]);let g=ys.find(a=>Math.abs(a.y-y)<=3);if(!g){g={y,t:[]};ys.push(g)}g.t.push(i)});
-  ys.sort((a,b)=>b.y-a.y).forEach(g=>{g.t.sort((a,b)=>a.transform[4]-b.transform[4]);const s=g.t.map(i=>i.str).join(" ").replace(/\s+/g," ").trim();if(s)lines.push(s)})}
+ for(let p=1;p<=pdf.numPages;p++){const page=await pdf.getPage(p),W=page.getViewport({scale:1}).width,
+  items=(await page.getTextContent()).items.filter(i=>i.str.trim());
+  for(const col of splitCols(items,W))lines.push(...toLines(col))}
  return lines}
 
 /* ---------- extraction ---------- */
@@ -163,13 +199,56 @@ const EX={
 function custom(L,label){const lab=label.toLowerCase();for(let i=0;i<L.length;i++){const l=L[i],k=l.toLowerCase().indexOf(lab);if(k<0)continue;
  const after=l.slice(k+label.length).replace(/^\s*[:\-–]\s*/,"").trim();if(after)return after.slice(0,200);if(L[i+1]&&!isHead(L[i+1]))return L[i+1].slice(0,200)}return""}
 
+/* ---------- AI: in-browser LLM (WebLLM + WebGPU, free, no server) ---------- */
+const WEBLLM="https://esm.run/@mlc-ai/web-llm@0.2.84";
+const MODELS={smart:"Qwen2.5-1.5B-Instruct-q4f16_1-MLC",fast:"Qwen2.5-0.5B-Instruct-q4f16_1-MLC"};
+const hasGPU=!!navigator.gpu;let engine=null,engineId="";
+if(!hasGPU){$("#ai").checked=false;$("#ai").disabled=true;$("#aim").disabled=true;$("#aibox").classList.add("off");
+ $("#aist").textContent="Smart AI mode needs WebGPU (Chrome / Edge on desktop or Android, recent Safari). Your browser will use standard mode instead."}
+async function loadEngine(id,onP){
+ if(engine&&engineId===id)return engine;
+ if(engine){try{await engine.unload()}catch(e){}engine=null}
+ const w=await import(WEBLLM);
+ engine=await w.CreateMLCEngine(id,{initProgressCallback:p=>onP(p.progress||0,p.text||"")});engineId=id;return engine}
+const AI_SKIP=["Email","Phone","LinkedIn","GitHub / Portfolio"]; /* regex is exact for these */
+const AI_HINT={"Full Name":"the candidate's own full name","Current Job Title":"the candidate's most recent or current job title only (e.g. 'Software Engineer'); no company, no dates",
+ "Total Experience":"total years of work experience, e.g. '5 years' (estimate from job dates; 'Fresher' if none)","Location":"candidate's city and country",
+ "Education":"highest qualification with field and institution","Skills":"comma-separated key skills","Certifications":"comma-separated certifications",
+ "Languages":"comma-separated spoken languages","Summary":"1-2 sentence summary, under 40 words"};
+const grounded=(v,t)=>{const w=v.toLowerCase().match(/[a-z0-9]{4,}/g)||[];if(!w.length)return true;const T=t.toLowerCase();return w.filter(x=>T.includes(x.slice(0,5))).length/w.length>=.5};
+const parseJ=x=>{if(!x)return{};const c=x.trim().replace(/^```(?:json)?\s*/i,"").replace(/\s*```$/,"").trim();
+ try{return JSON.parse(c)}catch(e){const o={};(c.match(/"[^"]+"\s*:\s*"(?:[^"\\]|\\.)*"/g)||[]).forEach(p=>{try{Object.assign(o,JSON.parse("{"+p+"}"))}catch(e){}});return o}}; /* salvages complete pairs if output is cut off */
+async function aiExtract(eng,text,sel){
+ const want=sel.filter(f=>!AI_SKIP.includes(f.n));if(!want.length)return{};
+ const keys=want.map(f=>`- "${f.n}": ${f.custom?`value of "${f.n}" exactly as written in the resume`:AI_HINT[f.n]}`).join("\n");
+ const tpl="{"+want.map(f=>`"${f.n}": "..."`).join(", ")+"}";
+ const schema=JSON.stringify({type:"object",properties:Object.fromEntries(want.map(f=>[f.n,{type:"string"}])),required:want.map(f=>f.n)});
+ const messages=[
+  {role:"system",content:"You extract data from resumes. Reply with ONE JSON object only, using exactly the requested keys and string values. Copy values from the resume; never invent anything. Use an empty string if a value is not present."},
+  {role:"user",content:`Keys to extract:\n${keys}\n\nReturn valid JSON formatted like: ${tpl}\n\nRESUME:\n${text.slice(0,7000)}`}];
+ let r;try{r=await eng.chat.completions.create({temperature:0,max_tokens:1500,response_format:{type:"json_object",schema},messages})}
+ catch(e){r=await eng.chat.completions.create({temperature:0,max_tokens:1500,response_format:{type:"json_object"},messages})}
+ return parseJ(r.choices[0].message.content)}
+/* AI value wins; strict text-grounding only applies when the regex already found something to fall back to */
+function mergeAI(f,ai,rx,t,hit){let v=ai&&ai[f.n];if(Array.isArray(v))v=v.join(", ");v=String(v??"").trim();
+ if(!v||/^(n\/a|none|null|not (found|present|available))$/i.test(v))return rx;
+ if(rx&&(f.custom||["Full Name","Current Job Title","Location","Education"].includes(f.n))&&!grounded(v,t))return rx;
+ hit.n++;return v}
+
 /* ---------- run ---------- */
 $("#run").onclick=async()=>{
  const sel=fields.filter(f=>f.on);cols=sel.map(f=>f.n);rows=[];const bar=$("#bar"),fill=bar.firstElementChild;
  $("#run").disabled=true;$("#exp").disabled=true;bar.classList.add("show");fill.style.width="0";
+ let eng=null;const st=$("#aist"),st0=st.textContent;if($("#ai").checked&&hasGPU&&!engine)toast("First run downloads the AI model once — it's cached afterwards");
+ if($("#ai").checked&&hasGPU){try{eng=await loadEngine(MODELS[$("#aim").value],(p,m)=>{fill.style.width=(p*100)+"%";st.textContent="Downloading AI model… "+Math.round(p*100)+"% — one-time download, cached so it's instant next visit. Please keep this tab open."});
+   st.textContent="✓ AI model ready — running privately in your browser."}
+  catch(e){console.error(e);toast("AI model couldn't load — using standard mode");st.textContent=st0}
+  fill.style.width="0"}
  for(let i=0;i<files.length;i++){const o=files[i];o.st="Reading…";o.cls="";renderFiles();
   try{const L=await readPdf(o.f),t=L.join("\n");if(t.length<30)throw new Error("scan");
-   const r={"Source File":o.f.name};sel.forEach(f=>{r[f.n]=(f.custom?custom(L,f.n):EX[f.n](L,t,o.f.name))||""});rows.push(r);o.st="Done";o.cls="ok"}
+   const r={"Source File":o.f.name};sel.forEach(f=>{r[f.n]=(f.custom?custom(L,f.n):EX[f.n](L,t,o.f.name))||""});
+   let hit={n:0};if(eng){o.st="AI reading…";renderFiles();try{const ai=await aiExtract(eng,t,sel);sel.forEach(f=>{if(!AI_SKIP.includes(f.n))r[f.n]=mergeAI(f,ai,r[f.n],t,hit)})}catch(e){console.error(e)}}
+   rows.push(r);o.st=!eng?"Done":hit.n?"Done ✨ AI":"Done · basic";o.cls="ok"}
   catch(e){o.st=e.message==="scan"?"No text (scanned?)":"Failed";o.cls="err"}
   renderFiles();fill.style.width=((i+1)/files.length*100)+"%"}
  renderTable();setTimeout(()=>bar.classList.remove("show"),700);sync();
@@ -188,17 +267,15 @@ $("#exp").onclick=async()=>{
   ws.columns=h.map(c=>{const w=Math.max(c.length,...rows.map(r=>String(c==="#"?rows.length:r[c]||"").length));
    return{header:c,key:c,width:c==="#"?6:Math.min(Math.max(w+4,14),60)}});
   rows.forEach((r,i)=>ws.addRow({"#":i+1,...r}));
-  const bd={style:"thin",color:{argb:"FFD9DCEB"}},border={top:bd,left:bd,bottom:bd,right:bd};
+  const bd={style:"thin",color:{argb:"FFE4E4E7"}},border={top:bd,left:bd,bottom:bd,right:bd};
   ws.eachRow((row,n)=>{row.eachCell(c=>{c.border=border;c.alignment={vertical:"middle",horizontal:n===1?"center":"left",wrapText:true};
-   if(n===1){c.font={bold:true,color:{argb:"FFFFFFFF"},size:11};c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF5B5BF0"}}}
-   else if(n%2===1)c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF4F5FD"}}});
+   if(n===1){c.font={bold:true,color:{argb:"FFFFFFFF"},size:11};c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF18181B"}}}
+   else if(n%2===1)c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFF4F4F5"}}});
    if(n===1)row.height=26;else{let k=1;row.eachCell((c,i)=>{k=Math.max(k,Math.ceil(String(c.value||"").length/Math.max(ws.getColumn(i).width-2,8)))});row.height=Math.min(150,Math.max(22,k*15+6))}});
   ws.autoFilter={from:{row:1,column:1},to:{row:1,column:h.length}};
   const buf=await wb.xlsx.writeBuffer(),blob=new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),name="resume-details-"+new Date().toISOString().slice(0,10)+".xlsx";
-  let dl=null;try{dl=await claude.use("downloads")}catch(e){}
-  if(dl){await dl.save({filename:name,data:blob});toast("Excel file saved ✓")}
-  else{const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();toast("Excel file downloaded ✓")}
- }catch(e){if(e&&e.code==="declined")return;toast("Export failed — please try again")}};
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast("Excel file downloaded ✓")
+ }catch(e){console.error(e);toast("Export failed — please try again")}};
 
 renderChips();renderFiles();
 </script>
